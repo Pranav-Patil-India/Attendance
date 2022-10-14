@@ -8,55 +8,69 @@
 import Foundation
 import UIKit
 
+/**
+ View controller for login screen.
+ */
 class LoginViewController: UIViewController {
-    
-    private let stackView: UIStackView = UIStackView()
+
+    // MARK: - Properties
+
+    private let logoWithTaglineView = LogoWithTaglineView()
+    private let loginView = LoginView()
+    private let containerView = UIView()
+
+    // MARK: - Overriden methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: AppColors.appColor)
-
-        setupStackView()
-        setupAndAddAppLogoImage()
-        setupAndAddIntroLabel()
-        
+        setupViewHierarchy()
+        setupConstraints()
+        styliseViews()
     }
 
-    private func setupStackView() {
-        view.addSubview(stackView)
-        stackView.axis = .horizontal
-        stackView.alignment = .center
+    // MARK: - Private helpers
 
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+    private func setupViewHierarchy() {
+        view.addSubview(logoWithTaglineView)
+        view.addSubview(containerView)
+        containerView.addSubview(loginView)
+    }
+
+    private func setupConstraints() {
+        // Logo with tagline view
+        logoWithTaglineView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor)
+            logoWithTaglineView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            logoWithTaglineView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            logoWithTaglineView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            logoWithTaglineView.heightAnchor.constraint(equalToConstant: AppConstant.loginScreenAppLogoSize.height)
+        ])
+
+        // Container view
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: logoWithTaglineView.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        // Login view
+        loginView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            loginView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            loginView.leadingAnchor.constraint(equalTo: containerView.layoutMarginsGuide.leadingAnchor),
+            loginView.trailingAnchor.constraint(equalTo: containerView.layoutMarginsGuide.trailingAnchor)
         ])
     }
+    
+    private func styliseViews() {
+        view.backgroundColor = AppColors.appColor
 
-    private func setupAndAddAppLogoImage() {
-        let imageSize = CGSize(width: 100, height: 100)
-        let imageView  = UIImageView(image: UIImage(named: AppImages.appIconWithAppColorBackground))
-        imageView.layer.masksToBounds = false
-        imageView.layer.cornerRadius = imageSize.height/2
-        imageView.clipsToBounds = true
-
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: imageSize.height),
-            imageView.widthAnchor.constraint(equalToConstant: imageSize.width)
-        ])
-        stackView.addArrangedSubview(imageView)
-    }
-
-    private func setupAndAddIntroLabel() {
-        let label = UILabel()
-        let attributedLabel = NSAttributedString(
-            string: AppTitles.tagline,
-            attributes: [NSAttributedString.Key.font: AppFonts.taglineFont])
-        label.attributedText = attributedLabel
-        stackView.addArrangedSubview(label)
+        // Container view
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = AppConstant.loginContainerViewTopBorderRadius
+        containerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
 }
