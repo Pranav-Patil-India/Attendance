@@ -12,6 +12,12 @@ import UIKit
  */
 class LoginView: UIView {
 
+    // MARK: - Constants
+
+    private static let loginViewInterItemSpacing: CGFloat = 20
+    private static let loginButtonHorizontalPadding: CGFloat = 20
+    private static let loginButtonVerticalPadding: CGFloat = 10
+
     // MARK: - Initialization
 
     init() {
@@ -28,27 +34,61 @@ class LoginView: UIView {
     private func setupSubviews() {
         let loginLabel = UILabel()
         let attributedLabel = NSAttributedString(
-            string: AppStrings.loginLabelText,
-            attributes: [NSAttributedString.Key.font: AppFonts.taglineFont])
+            string: String.loginLabelText,
+            attributes: [NSAttributedString.Key.font: UIFont.taglineFont])
         loginLabel.attributedText = attributedLabel
         addSubview(loginLabel)
         loginLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             loginLabel.topAnchor.constraint(equalTo: topAnchor),
-            loginLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            loginLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            loginLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
 
         let emailTextfield = UITextField()
-        emailTextfield.placeholder = AppStrings.emailTextFieldPlaceholderText
+        emailTextfield.placeholder = String.emailTextFieldPlaceholderText
         emailTextfield.borderStyle = .roundedRect
         addSubview(emailTextfield)
         emailTextfield.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            emailTextfield.topAnchor.constraint(equalTo: loginLabel.bottomAnchor, constant: AppConstant.loginViewInterItemSpacing),
-            emailTextfield.leadingAnchor.constraint(equalTo: loginLabel.leadingAnchor),
-            emailTextfield.trailingAnchor.constraint(equalTo: loginLabel.trailingAnchor),
-            emailTextfield.bottomAnchor.constraint(equalTo: bottomAnchor)
+            emailTextfield.topAnchor.constraint(
+                equalTo: loginLabel.bottomAnchor,
+                constant: LoginView.loginViewInterItemSpacing),
+            emailTextfield.leadingAnchor.constraint(equalTo: leadingAnchor),
+            emailTextfield.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+        
+        let passwordTextfield = UITextField()
+        passwordTextfield.placeholder = String.passwordTextFieldPlaceholderText
+        passwordTextfield.borderStyle = .roundedRect
+        addSubview(passwordTextfield)
+        passwordTextfield.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            passwordTextfield.topAnchor.constraint(
+                equalTo: emailTextfield.bottomAnchor,
+                constant: LoginView.loginViewInterItemSpacing),
+            passwordTextfield.leadingAnchor.constraint(equalTo: emailTextfield.leadingAnchor),
+            passwordTextfield.trailingAnchor.constraint(equalTo: emailTextfield.trailingAnchor)
+        ])
+        
+        let loginButton = UIButton()
+        loginButton.setTitle(String.loginButtonText, for: .normal)
+        loginButton.backgroundColor = UIColor.loginButtonColor
+        loginButton.layer.cornerRadius = 8
+        loginButton.configuration = UIButton.Configuration.filled()
+        loginButton.configuration?.contentInsets = NSDirectionalEdgeInsets(
+            top: Self.loginButtonVerticalPadding,
+            leading: Self.loginButtonHorizontalPadding,
+            bottom: Self.loginButtonVerticalPadding,
+            trailing: Self.loginButtonHorizontalPadding)
+    
+        addSubview(loginButton)
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            loginButton.topAnchor.constraint(
+                equalTo: passwordTextfield.bottomAnchor,
+                constant: LoginView.loginViewInterItemSpacing),
+            loginButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            loginButton.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 

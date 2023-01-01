@@ -12,6 +12,10 @@ import UIKit
  */
 class LogoWithTaglineView: UIView {
 
+    // MARK: - Constants
+    
+    static let loginScreenAppLogoSize: CGSize = CGSize(width: 100, height: 100)
+
     // MARK: - Initialization
 
     init() {
@@ -40,8 +44,8 @@ class LogoWithTaglineView: UIView {
         ])
 
         // Setup image view for app logo and add to stackview
-        let imageSize = AppConstant.loginScreenAppLogoSize
-        let imageView  = UIImageView(image: UIImage(named: AppImages.appIconWithAppColorBackground))
+        let imageSize = LogoWithTaglineView.loginScreenAppLogoSize
+        let imageView  = UIImageView(image: UIImage(named: UIImage.appIconWithAppColorBackground))
         imageView.layer.masksToBounds = false
         imageView.layer.cornerRadius = imageSize.height/2
         imageView.clipsToBounds = true
@@ -55,8 +59,8 @@ class LogoWithTaglineView: UIView {
         // Setup tagline label and add to stackview
         let label = UILabel()
         let attributedLabel = NSAttributedString(
-            string: AppStrings.tagline,
-            attributes: [NSAttributedString.Key.font: AppFonts.taglineFont])
+            string: String.tagline,
+            attributes: [NSAttributedString.Key.font: UIFont.taglineFont])
         label.attributedText = attributedLabel
         stackView.addArrangedSubview(label)
     }

@@ -13,6 +13,11 @@ import UIKit
  */
 class LoginViewController: UIViewController {
 
+    // MARK: - Constants
+    
+    private static let horizontalPadding: CGFloat = 10
+    private static let loginContainerViewTopBorderRadius: CGFloat = 50
+
     // MARK: - Properties
 
     private let logoWithTaglineView = LogoWithTaglineView()
@@ -43,7 +48,7 @@ class LoginViewController: UIViewController {
             logoWithTaglineView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             logoWithTaglineView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             logoWithTaglineView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            logoWithTaglineView.heightAnchor.constraint(equalToConstant: AppConstant.loginScreenAppLogoSize.height)
+            logoWithTaglineView.heightAnchor.constraint(equalToConstant: LogoWithTaglineView.loginScreenAppLogoSize.height)
         ])
 
         // Container view
@@ -59,17 +64,21 @@ class LoginViewController: UIViewController {
         loginView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             loginView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            loginView.leadingAnchor.constraint(equalTo: containerView.layoutMarginsGuide.leadingAnchor),
-            loginView.trailingAnchor.constraint(equalTo: containerView.layoutMarginsGuide.trailingAnchor)
+            loginView.leadingAnchor.constraint(
+                equalTo: containerView.layoutMarginsGuide.leadingAnchor,
+                constant: Self.horizontalPadding),
+            loginView.trailingAnchor.constraint(
+                equalTo: containerView.layoutMarginsGuide.trailingAnchor,
+                constant: -Self.horizontalPadding)
         ])
     }
     
     private func styliseViews() {
-        view.backgroundColor = AppColors.appColor
+        view.backgroundColor = UIColor.appColor
 
         // Container view
-        containerView.backgroundColor = .white
-        containerView.layer.cornerRadius = AppConstant.loginContainerViewTopBorderRadius
+        containerView.backgroundColor = UIColor.loginViewBackgroundColor
+        containerView.layer.cornerRadius = LoginViewController.loginContainerViewTopBorderRadius
         containerView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
 
